@@ -1,29 +1,23 @@
-import Hapi from 'hapi';
-
-import WebController from './core/WebControllerAnnotation';
-import WebMethod from './core/WebMethodAnnotation';
+import WebController from './core/annotations/WebControllerAnnotation';
+import WebMethod from './core/annotations/WebMethodAnnotation';
+import Resolver from './core/resolver';
 
 @WebController('/')
-class IndexController{
-  
+export default class IndexController{
+
   @WebMethod({ path: '/home/{user}/{test}', method: 'GET' })
   home(user, test) {
     this.reply(`Hello to the user ${user} with ${test}`);
   }
 }
 
-let server = new Hapi.Server();
-server.connection({
+let resolver = new Resolver();
+resolver.bindResources({
   port: 8000,
   host: 'localhost'
+},
+function handleServerStart() {
+  console.log(`Server started at ${this.uri}`);
 });
 
-server.start(function handleServerStart() {
-  console.log(`Server started at localhost:8000`);
-});
-
-
-let index = new IndexController();
-index.home.prototype.bindResourceService(server, index.resource);
-
-export default IndexController;
+resolver.bindController(IndexController);

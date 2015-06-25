@@ -50,6 +50,11 @@ function resourceMethodBuilder(controller, propertyName, descriptor) {
   };
 
   routeMethod.prototype.bindResourceService = bindResourceService.bind(this);
+
+  // set function as enumerable
+  descriptor.enumerable = true;
+
+  return descriptor;
 }
 
 /**
