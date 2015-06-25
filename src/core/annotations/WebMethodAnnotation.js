@@ -1,4 +1,4 @@
-import url from 'url';
+import path from 'path';
 import Hoek from 'hoek';
 
 let _routeDefaults = {
@@ -64,7 +64,14 @@ function resourceMethodBuilder(controller, propertyName, descriptor) {
  */
 function bindResourceService(server, resource) {
   // apply root controller resource path, to the relative path provided by method handler
-  this.hapiRouteConfig.path = decodeURIComponent(url.resolve(resource, this.hapiRouteConfig.path));
+  let routePath = path.join(resource, this.hapiRouteConfig.path);
+  this.hapiRouteConfig.path = decodeURIComponent(routePath);
+  
+  if (this.hapiRouteConfig.path.length > 1) {
+    this.hapiRouteConfig.path = this.hapiRouteConfig.path.replace(new RegExp('\/$'), '');
+  }
+
+  console.log('Registered route controller: %s', this.hapiRouteConfig.path);
 
   server.route(this.hapiRouteConfig);
 }

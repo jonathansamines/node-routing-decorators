@@ -1,6 +1,12 @@
 import Resolver from './core/resolver';
 
-let resolver = new Resolver();
+let resolver = new Resolver({
+  connections: {
+    router: {
+      stripTrailingSlash: true
+    }
+  }
+});
 
 // start the resolver server
 resolver.bindResources({
