@@ -5,6 +5,7 @@ import WebMethod from './core/WebMethodAnnotation';
 
 @WebController('/')
 class IndexController{
+  
   @WebMethod({ path: '/home/{user}/{test}', method: 'GET' })
   home(user, test) {
     this.reply(`Hello to the user ${user} with ${test}`);
@@ -23,6 +24,6 @@ server.start(function handleServerStart() {
 
 
 let index = new IndexController();
-index.home.prototype.bindRouteMethod(index.resource, server);
+index.home.prototype.bindResourceService(server, index.resource);
 
 export default IndexController;

@@ -1,16 +1,20 @@
+/**
+ * WebControllerAnnotation
+ * Provides a declarative way of define a controller metadata
+ * @param {String} root resource path
+ */
+export default function WebControllerAnnotation(resource) {
 
-class WebControllerAnnotation{
-  constructor(route) {
-    this.route = route;
-  }
+  /**
+   * Configures the constructor function of the decorated class
+   * @param  {Function} Controller Constructor function which defines the class to be decorate
+   */
+  return function resourceConfigurationBuilder(Controller) {
+    if (typeof Controller !== 'function') {
+      throw new Error('The decorated member should a Constructor function.');
+    }
 
-  buildRouteConstructor(Controller) {
     // set passed route as root resource for controller
-    Controller.prototype.resource = this.route;
+    Controller.prototype.resource = resource;
   }
-}
-
-export default function buildWebControllerAnnotation(route) {
-  let webController = new WebControllerAnnotation(route);
-  return webController.buildRouteConstructor.bind(webController);
 }
