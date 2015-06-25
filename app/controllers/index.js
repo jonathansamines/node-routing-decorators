@@ -5,7 +5,7 @@ import resolver from '../../src/index';
 @WebController({resolver, resource: '/'})
 export default class IndexController{
 
-  @WebMethod({ path: '/home/{user}', method: 'GET' })
+  @WebMethod({ path: '/home/{user?}', method: 'GET' })
   home(user, test) {
     this.reply(`Hello to the user ${user}`);
   }

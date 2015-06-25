@@ -66,7 +66,7 @@ function bindResourceService(server, resource) {
   // apply root controller resource path, to the relative path provided by method handler
   let routePath = path.join(resource, this.hapiRouteConfig.path);
   this.hapiRouteConfig.path = decodeURIComponent(routePath);
-  
+
   if (this.hapiRouteConfig.path.length > 1) {
     this.hapiRouteConfig.path = this.hapiRouteConfig.path.replace(new RegExp('\/$'), '');
   }
@@ -83,7 +83,7 @@ function bindResourceService(server, resource) {
  * @return {Array}         Ordered list of path parameter values
  */
 function _getHandlerFunctionParams(path, params) {
-  let getParametersExpression = /(?!\/){[\w\-\*]+}(?!\/)?/gi;
+  let getParametersExpression = /(?!\/){[\w-*?]+}(?!\/)?/gi;
   let parameters = [];
 
   let pathParameters = getParametersExpression.exec(path);
@@ -91,8 +91,9 @@ function _getHandlerFunctionParams(path, params) {
 
     // generate parameter list in the same order as parameter definition in path
     for (let parameter of pathParameters) {
-      let propertyName = parameter.replace(new RegExp('[{}]', 'gi'), '');
+      let propertyName = parameter.replace(new RegExp('[{}*?]', 'gi'), '');
       let parameterValue = params[propertyName];
+
       parameters.push(parameterValue);
     }
 
