@@ -1,0 +1,35 @@
+{
+  "name": "hapinext",
+  "version": "0.1.0",
+  "description": "A wrapper around hapiJS framework, that allows use some of the nice ES6 features for the framework use",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jonathansamines/hapinext"
+  },
+  "keywords": [
+    "hapi",
+    "node",
+    "es6",
+    "babel",
+    "annotation",
+    "mvc",
+    "web"
+  ],
+  "author": "Jonathan Samines <jn.samines@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jonathansamines/hapinext/issues"
+  },
+  "homepage": "https://github.com/jonathansamines/hapinext",
+  "devDependencies": {
+    "babel": "^5.6.6",
+    "gulp": "^3.9.0",
+    "gulp-babel": "^5.1.0",
+    "gulp-sourcemaps": "^1.5.2",
+    "nodemon": "^1.3.7"
+  }
+}
