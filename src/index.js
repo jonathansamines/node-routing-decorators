@@ -1,6 +1,6 @@
-import Resolver from './core/resolver';
+import Router from './core/router';
 
-const resolver = new Resolver({
+const router = new Router({
   connections: {
     router: {
       stripTrailingSlash: true
@@ -9,7 +9,7 @@ const resolver = new Resolver({
 });
 
 // start the resolver server
-resolver.bindResources({
+router.bindResources({
   port: 8000,
   host: 'localhost'
 },
@@ -17,4 +17,4 @@ function handleServerStart() {
   console.log(`Server started at ${this.uri}`);
 });
 
-export default resolver.bindController.bind(resolver);
+export default router.bindController.bind(router);
