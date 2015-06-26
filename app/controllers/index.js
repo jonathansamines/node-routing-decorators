@@ -2,7 +2,7 @@ import controller from '../../src/core/annotations/controller';
 import httpMethod from '../../src/core/annotations/httpMethod';
 import resolver from '../../src/index';
 
-@controller({resolver, resource: '/'})
+@controller({resolver})
 export default class IndexController{
 
   @httpMethod({ path: '/home/{user?}', method: 'GET' })
@@ -10,7 +10,7 @@ export default class IndexController{
     this.reply(`Hello to the user ${user}`);
   }
 
-  @httpMethod({ method: 'GET' })
+  @httpMethod({ path: '/', method: 'GET' })
   index() {
     this.reply('This is the index.');
   }

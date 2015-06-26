@@ -10,10 +10,6 @@ class WebControllerAnnotation{
       throw new Error('The route resolver is needed for expose this controller as a web handler.');
     }
 
-    if (resource === undefined) {
-      throw new Error('A resource path is required.');
-    }
-
     this.resource = resource;
     this.resolver = resolver;
   }
@@ -27,8 +23,10 @@ class WebControllerAnnotation{
       throw new Error('The decorated member should be a Constructor function.');
     }
 
-    // set passed route as root resource for controller
-    Controller.prototype.resource = this.resource;
+    // set passed route as root resource for controller, if no resource path is provided
+    // then try to use the Controller constructor name
+    const normalizedControllerName = '/' + Controller.name.toLowerCase().replace('controller', '');
+    Controller.prototype.resource = this.resource || normalizedControllerName;
 
     // bind controller
     this.resolver(Controller);
