@@ -4,7 +4,8 @@
   "description": "A wrapper around hapiJS framework, that allows use some of the nice ES6 features for the framework use",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "nodemon --exec 'babel-node --optional es7.decorators' app/controllers/index.js"
   },
   "repository": {
     "type": "git",
