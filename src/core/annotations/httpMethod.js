@@ -47,7 +47,10 @@ export class HttpMethodAnnotation{
       routeMethod.prototype.reply = reply;
 
       const params = _this._getHandlerFunctionParams(resourcePath, request.params);
-      routeMethod.apply(routeMethod.prototype, params);
+      const response = routeMethod.apply(routeMethod.prototype, params);
+
+      if (response === undefined) return;
+      reply(response);
     };
 
     routeMethod.prototype.bindResourceService = this.bindResourceService.bind(this);
@@ -72,7 +75,7 @@ export class HttpMethodAnnotation{
       this.hapiRouteConfig.path = this.hapiRouteConfig.path.replace(new RegExp('\/$'), '');
     }
 
-    console.log('Registered route controller: %s', this.hapiRouteConfig.path);
+    console.log('Route handler [%s] %s', this.hapiRouteConfig.method, this.hapiRouteConfig.path);
 
     server.route(this.hapiRouteConfig);
   }
