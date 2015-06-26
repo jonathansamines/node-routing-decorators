@@ -13,8 +13,12 @@ export default class RouteResolver{
   }
 
   bindController(Controller) {
-    for (let controllerMethodName in Controller.prototype) {
-      let controllerMethod = Controller.prototype[controllerMethodName];
+    for (const controllerMethodName in Controller.prototype) {
+      if (!Controller.prototype.hasOwnProperty(controllerMethodName)) {
+        continue;
+      }
+
+      const controllerMethod = Controller.prototype[controllerMethodName];
 
       // ignores properties
       if (typeof controllerMethod !== 'function') {

@@ -1,6 +1,6 @@
 import Resolver from './core/resolver';
 
-let resolver = new Resolver({
+const resolver = new Resolver({
   connections: {
     router: {
       stripTrailingSlash: true
