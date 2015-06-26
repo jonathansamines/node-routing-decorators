@@ -13,10 +13,6 @@ const _routeDefaults = {
  */
 class HttpMethodAnnotation{
   constructor(routeConfig = {}) {
-    if (routeConfig.path === undefined) {
-      throw new Error('Route path is mandatory for configuring this method.');
-    }
-
     // merge default options with routeConfig
     this.hapiRouteConfig = Hoek.applyToDefaults(_routeDefaults, routeConfig);
   }
@@ -29,7 +25,6 @@ class HttpMethodAnnotation{
    */
   resourceMethodBuilder(controller, propertyName, descriptor) {
     const _this = this;
-    const resourcePath = this.hapiRouteConfig.path;
     const routeMethod = descriptor.value;
 
     // verify if target is a function because webmethod annotation
@@ -37,6 +32,9 @@ class HttpMethodAnnotation{
     if (typeof routeMethod !== 'function') {
       throw new Error('HttpMethod is only allowed on method definitions. (regular javascript functions)');
     }
+
+    // If there is no provided method path, then try to use propertyName as path
+    const resourcePath = this.hapiRouteConfig.path = this.hapiRouteConfig.path || propertyName;
 
     // Configuring hapi method handler, a raw hapi handler receives the params ( request, reply )
     // but we parse this to a function which params matches with request.params values

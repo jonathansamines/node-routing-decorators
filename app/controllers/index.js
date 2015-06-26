@@ -10,7 +10,7 @@ export default class IndexController{
     this.reply(`Hello to the user ${user}`);
   }
 
-  @httpMethod({ path: '/', method: 'GET' })
+  @httpMethod({ method: 'GET' })
   index() {
     this.reply('This is the index.');
   }
