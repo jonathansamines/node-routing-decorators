@@ -1,5 +1,6 @@
 import path from 'path';
 import Hoek from 'hoek';
+import DefaultFormatter from '../router/defaults';
 
 const _routeDefaults = {
   method: 'GET'
@@ -15,6 +16,7 @@ class HttpMethodAnnotation{
   constructor(routeConfig = {}) {
     // merge default options with routeConfig
     this.hapiRouteConfig = Hoek.applyToDefaults(_routeDefaults, routeConfig);
+    this.formatter = new DefaultFormatter();
   }
 
   /**
@@ -34,7 +36,8 @@ class HttpMethodAnnotation{
     }
 
     // If there is no provided method path, then try to use propertyName as path
-    const resourcePath = this.hapiRouteConfig.path = this.hapiRouteConfig.path || propertyName;
+    let resourcePath = this.hapiRouteConfig.path || propertyName;
+    resourcePath = this.hapiRouteConfig.path = this.formatter.methodPath(resourcePath);
 
     // Configuring hapi method handler, a raw hapi handler receives the params ( request, reply )
     // but we parse this to a function which params matches with request.params values

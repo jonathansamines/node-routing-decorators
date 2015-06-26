@@ -1,3 +1,5 @@
+import DefaultFormatter from '../router/defaults';
+
 /**
  * WebControllerAnnotation
  * Provides a declarative way of define a controller metadata
@@ -12,6 +14,7 @@ class WebControllerAnnotation{
 
     this.resource = resource;
     this.resolver = resolver;
+    this.formatter = new DefaultFormatter();
   }
 
   /**
@@ -25,7 +28,7 @@ class WebControllerAnnotation{
 
     // set passed route as root resource for controller, if no resource path is provided
     // then try to use the Controller constructor name
-    const normalizedControllerName = '/' + Controller.name.toLowerCase().replace('controller', '');
+    const normalizedControllerName = this.formatter.controllerPath(Controller.name.toLowerCase().replace('controller', ''));
     Controller.prototype.resource = this.resource || normalizedControllerName;
 
     // bind controller
