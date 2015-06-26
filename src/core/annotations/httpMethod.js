@@ -12,7 +12,7 @@ const _routeDefaults = {
  * @param  {Object} routeConfig An simple object with route configuration options as defined in hapi docs
  * @return {Function}           A function that build the route decorator
  */
-class HttpMethodAnnotation{
+export class HttpMethodAnnotation{
   constructor(routeConfig = {}) {
     // merge default options with routeConfig
     this.hapiRouteConfig = Hoek.applyToDefaults(_routeDefaults, routeConfig);
@@ -103,9 +103,4 @@ class HttpMethodAnnotation{
 
     return parameters;
   }
-}
-
-export default function buildWebMethodDecorator(params) {
-  const method = new HttpMethodAnnotation(params);
-  return method.resourceMethodBuilder.bind(method);
 }

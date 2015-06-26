@@ -1,21 +1,21 @@
 import controller from '../../src/core/annotations/controller';
-import httpMethod from '../../src/core/annotations/httpMethod';
+import {httpGet, httpMethod, httpPost} from '../../src/core/annotations/methods';
 import resolver from '../../src/index';
 
 @controller({resolver})
 export default class IndexController{
 
-  @httpMethod({ path: '/home/{user?}', method: 'GET' })
+  @httpMethod({ path: '/home/{user?}' })
   home(user) {
     this.reply(`Hello to the user ${user}`);
   }
 
-  @httpMethod({ method: 'GET' })
+  @httpGet()
   index() {
     this.reply('This is the index.');
   }
 
-  @httpMethod({ path: '/hello', method: 'GET' })
+  @httpPost()
   hello() {
     this.reply('This is hello !!!');
   }
