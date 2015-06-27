@@ -1,10 +1,5 @@
 import path from 'path';
-import Hoek from 'hoek';
-import DefaultFormatter from '../router/defaults';
-
-const _routeDefaults = {
-  method: 'GET'
-};
+import RoutingOptions from '../router/defaults';
 
 /**
  * WebMethodAnnotation
@@ -14,9 +9,8 @@ const _routeDefaults = {
  */
 export class HttpMethodAnnotation{
   constructor(routeConfig = {}) {
-    // merge default options with routeConfig
-    this.hapiRouteConfig = Hoek.applyToDefaults(_routeDefaults, routeConfig);
-    this.formatter = new DefaultFormatter();
+    this.routeConfig = routeConfig;
+    this.routing = new RoutingOptions();
   }
 
   /**
@@ -26,34 +20,22 @@ export class HttpMethodAnnotation{
    * @param  {Object} descriptor            Configuration for method (as defined in Object.defineProperty)
    */
   resourceMethodBuilder(controller, propertyName, descriptor) {
-    const _this = this;
-    const routeMethod = descriptor.value;
+    const method = descriptor.value;
 
     // verify if target is a function because webmethod annotation
     // is only allowed on class "method" definitions
-    if (typeof routeMethod !== 'function') {
+    if (typeof method !== 'function') {
       throw new Error('HttpMethod is only allowed on method definitions. (regular javascript functions)');
     }
 
     // If there is no provided method path, then try to use propertyName as path
-    let resourcePath = this.hapiRouteConfig.path || propertyName;
-    resourcePath = this.hapiRouteConfig.path = this.formatter.methodPath(resourcePath);
+    let resourcePath = this.routeConfig.path || propertyName;
+    resourcePath = this.routeConfig.path = this.routing.pathForMethod(resourcePath);
 
-    // Configuring hapi method handler, a raw hapi handler receives the params ( request, reply )
-    // but we parse this to a function which params matches with request.params values
-    // in the same order as defined in the route path
-    this.hapiRouteConfig.handler = function handlerBuilder(request, reply) {
-      routeMethod.prototype.request = request;
-      routeMethod.prototype.reply = reply;
+    // set the http handler for this route
+    this.routeConfig.handler = this._hapiHandlerBuilder.bind(this, method, resourcePath);
 
-      const params = _this._getHandlerFunctionParams(resourcePath, request.params);
-      const response = routeMethod.apply(routeMethod.prototype, params);
-
-      if (response === undefined) return;
-      reply(response);
-    };
-
-    routeMethod.prototype.bindResourceService = this.bindResourceService.bind(this);
+    method.prototype.bindResourceService = this.bindResourceService.bind(this);
 
     // set function as enumerable
     descriptor.enumerable = true;
@@ -68,16 +50,16 @@ export class HttpMethodAnnotation{
    */
   bindResourceService(server, resource) {
     // apply root controller resource path, to the relative path provided by method handler
-    const routePath = path.join(resource, this.hapiRouteConfig.path);
-    this.hapiRouteConfig.path = decodeURIComponent(routePath);
+    const routePath = path.join(resource, this.routeConfig.path);
+    this.routeConfig.path = decodeURIComponent(routePath);
 
-    if (this.hapiRouteConfig.path.length > 1) {
-      this.hapiRouteConfig.path = this.hapiRouteConfig.path.replace(new RegExp('\/$'), '');
+    if (this.routeConfig.path.length > 1) {
+      this.routeConfig.path = this.routeConfig.path.replace(new RegExp('\/$'), '');
     }
 
-    console.log('Route handler [%s] %s', this.hapiRouteConfig.method, this.hapiRouteConfig.path);
+    console.log('Route handler [%s] %s', this.routeConfig.method, this.routeConfig.path);
 
-    server.route(this.hapiRouteConfig);
+    server.route(this.routeConfig);
   }
 
   /**
@@ -106,4 +88,20 @@ export class HttpMethodAnnotation{
 
     return parameters;
   }
+
+  /**
+   * Configuring hapi method handler, a raw hapi handler receives the params ( request, reply )
+   * but we parse this to a function which params matches with request.params values
+   * in the same order as defined in the route path
+   */
+  _hapiHandlerBuilder(method, resourcePath, request, reply) {
+    method.prototype.request = request;
+    method.prototype.reply = reply;
+
+    const params = this._getHandlerFunctionParams(resourcePath, request.params);
+    const response = method.apply(method.prototype, params);
+
+    if (response === undefined) return;
+    reply(response);
+  };
 }

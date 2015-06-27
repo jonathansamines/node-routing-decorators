@@ -1,4 +1,4 @@
-import DefaultFormatter from '../router/defaults';
+import DefaultRoutingOptions from '../router/defaults';
 
 /**
  * WebControllerAnnotation
@@ -14,7 +14,7 @@ class WebControllerAnnotation{
 
     this.resource = resource;
     this.resolver = resolver;
-    this.formatter = new DefaultFormatter();
+    this.routing = new DefaultRoutingOptions();
   }
 
   /**
@@ -28,7 +28,7 @@ class WebControllerAnnotation{
 
     // set passed route as root resource for controller, if no resource path is provided
     // then try to use the Controller constructor name
-    const normalizedControllerName = this.formatter.controllerPath(Controller.name.toLowerCase().replace('controller', ''));
+    const normalizedControllerName = this.routing.pathForController(Controller.name.toLowerCase().replace('controller', ''));
     Controller.prototype.resource = this.resource || normalizedControllerName;
 
     // bind controller
