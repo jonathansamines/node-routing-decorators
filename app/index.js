@@ -1,5 +1,5 @@
 import Hapi from 'hapi';
-import Router from './core/router';
+import Router from '../lib/core/router';
 
 const server = new Hapi.Server({
   connections: {

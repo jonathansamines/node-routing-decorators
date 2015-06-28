@@ -1,6 +1,6 @@
 import controller from '../../lib/core/annotations/controller';
 import {httpGet} from '../../lib/core/annotations/methods';
-import resolver from '../../lib/index';
+import resolver from '../index';
 
 @controller({resolver})
 export default class IndexController{
