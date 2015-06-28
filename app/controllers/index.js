@@ -5,7 +5,7 @@ import resolver from '../index';
 @controller({resolver, resource: '/api/[controller]' })
 export default class IndexController{
 
-  @httpGet({ path: '/home/{user?}' })
+  @httpGet({ path: '/[action]/{user?}' })
   home(user) {
     return `Hello to the user ${user}`;
   }
