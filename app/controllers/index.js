@@ -2,7 +2,7 @@ import controller from '../../lib/core/annotations/controller';
 import {httpGet} from '../../lib/core/annotations/methods';
 import resolver from '../index';
 
-@controller({resolver})
+@controller({resolver, resource: '/api/[controller]' })
 export default class IndexController{
 
   @httpGet({ path: '/home/{user?}' })
