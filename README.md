@@ -96,3 +96,29 @@ class HomeController{
   index(param, matching){}
 }
 ```
+
+#### Action attributes defaults
+This feature allows you specify default values in case those were not specified on uri
+
+```javascript
+@route('[controller]')
+class HomeController{
+
+  // in case /home/jonathan is present, then the value of user var is "jonathan", in other case is set to "anonymous"
+  @route('/{user=anonymous}')
+  index(user) {}
+}
+```
+
+#### Action attributes constraints
+Action attributes are awsome but also too generic. Attribute constrains allow you define restrictions to an action attribute value, both with pre-defined constraints as with Regular Expressions.
+
+```javascript
+@route('[controller]')
+class HomeController{
+
+  // user attribute has to be an integer
+  @route('/{user:int}')
+  index(user) {}
+}
+```
