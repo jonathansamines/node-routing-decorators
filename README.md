@@ -88,6 +88,7 @@ The above will override the Controller generated prefix with the specified at ac
 #### Action attributes pattern matching
 This is really an awesome feature, which allows you define path segments and match with the action arguments.
 
+
     ```javascript
     @route('[controller]')
     class HomeController{
