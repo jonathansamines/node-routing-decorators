@@ -19,7 +19,11 @@ server.start(function handlerServerStart() {
   console.log(`Server started at : ${server.info.uri}`);
 });
 
-const router = new Router(server);
-router.resolveControllerRoutes(IndexController);
+const router = new Router();
+
+const routes = router.getControllerRoutes(IndexController);
+routes.forEach(function bindActionsToRouter(actionConfig) {
+  server.route(actionConfig);
+});
 
 export default router;
