@@ -1,7 +1,6 @@
 import route from '../../lib/core/annotations/route';
-import resolver from '../index';
 
-@route({resolver})
+@route()
 export default class IndexController{
 
   @route({ path: '/[action]/{user?}' })

@@ -1,5 +1,6 @@
 import Hapi from 'hapi';
 import Router from '../lib/core/router';
+import IndexController from './controllers/index';
 
 const server = new Hapi.Server({
   connections: {
@@ -19,5 +20,6 @@ server.start(function handlerServerStart() {
 });
 
 const router = new Router(server);
+router.resolveControllerRoutes(IndexController);
 
 export default router;

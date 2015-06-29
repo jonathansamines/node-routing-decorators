@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "nodemon --exec 'babel-node --optional es7.decorators' app/controllers/index.js"
+    "watch": "nodemon --exec 'babel-node --optional es7.decorators' app/index.js"
   },
   "repository": {
     "type": "git",
