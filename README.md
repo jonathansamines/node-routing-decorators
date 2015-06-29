@@ -52,13 +52,15 @@ The attribute based routing, will allow you override the default naming conventi
 
  At class definition level, we can refer to the current controller by using the {controller} wildcard, which would be replaced with the controller name (stripping out the "Controller" postfix/prefix if present).
 
+
     ```javascript
     // maps to /home
     @route('/[controller]')
     class HomeController{}
     ```
 
-We also can use default values to specify a action default (which also overrides the naming convention defaults).
+We also can use default values to specify an action default (which also overrides the naming convention defaults).
+
 
     ```javascript
     // the route /home maps to /home/index
@@ -69,6 +71,7 @@ We also can use default values to specify a action default (which also overrides
     ```
 
 In case of an action, we can use [controller] and [action] in a similar way.
+
 
     ```javascript
     @route('[controller]')
