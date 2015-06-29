@@ -22,12 +22,11 @@ The routing framework has to top level routing models:
  - **Convention based routing**
  - **Attribute based routing**
 
+Both are really helpful approaches, but from my perspective the Convention based routing lost some of his utilities, because the introduction of the Attribute based routing.
 
- Both are really helpful approaches, but from my perspective the Convention based routing lost some of his utilities, because the introduction of the Attribute based routing.
+Because of this, i would only implement the Attribute based routing, which i consider most useful, but also would implement a simple "global" conventions which would allow us to define a "template" pattern for all controllers; this would only allow constant values, a well two wildcards {controller} and {action}, which will match with the current controller and action (the same way of work of convention based routing), the main difference besides described above is that it only will allow one global template for the whole application. We can also specify default values for both wildcards.
 
- Because of this, i would only implement the Attribute based routing, which i consider most useful, but also would implement a simple "global" conventions which would allow us to define a "template" pattern for all controllers; this would only allow constant values, a well two wildcards {controller} and {action}, which will match with the current controller and action (the same way of work of convention based routing), the main difference besides described above is that it only will allow one global template for the whole application. We can also specify default values for both wildcards.
-
- This will allow us to define something like:
+This will allow us to define something like:
 
      /prefix-{controller=default}-postfix/prefix-{action=default}-postfix
 
@@ -44,13 +43,13 @@ The attribute based routing, will allow you override the default naming conventi
  - General pattern matching via Regular Expressions.
 
 
- ### Attribute based routing
- As mentioned above, i´m going to describe in detail the implementation details of each of this features.
+### Attribute based routing
+As mentioned above, i´m going to describe in detail the implementation details of each of this features.
 
- #### Controller and Action wildcards
- In a Controller class definition or in a class method definition (constructor functions and function as methods in javascript lang) are the only places in which a routing decorator can be placed.
+#### Controller and Action wildcards
+In a Controller class definition or in a class method definition (constructor functions and function as methods in javascript lang) are the only places in which a routing decorator can be placed.
 
- At class definition level, we can refer to the current controller by using the {controller} wildcard, which would be replaced with the controller name (stripping out the "Controller" postfix/prefix if present).
+At class definition level, we can refer to the current controller by using the {controller} wildcard, which would be replaced with the controller name (stripping out the "Controller" postfix/prefix if present).
 
 
     ```javascript
