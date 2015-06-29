@@ -51,37 +51,34 @@ In a Controller class definition or in a class method definition (constructor fu
 
 At class definition level, we can refer to the current controller by using the {controller} wildcard, which would be replaced with the controller name (stripping out the "Controller" postfix/prefix if present).
 
-
-    ```javascript
-    // maps to /home
-    @route('/[controller]')
-    class HomeController{}
-    ```
+```javascript
+// maps to /home
+@route('/[controller]')
+class HomeController{}
+```
 
 We also can use default values to specify an action default (which also overrides the naming convention defaults).
 
-
-    ```javascript
-    // the route /home maps to /home/index
-    @route('/[controller]/[action=index]')
-    class HomeController{
-      index() {}
-    }
-    ```
+```javascript
+// the route /home maps to /home/index
+@route('/[controller]/[action=index]')
+class HomeController{
+  index() {}
+}
+```
 
 In case of an action, we can use [controller] and [action] in a similar way.
 
+```javascript
+@route('[controller]')
+class HomeController{
 
-    ```javascript
-    @route('[controller]')
-    class HomeController{
-
-      // this route maps to
-      // /api/my-home/index
-      @route('/api/my-[controller]/[action]')
-      index() {}
-    }
-    ```
+  // this route maps to
+  // /api/my-home/index
+  @route('/api/my-[controller]/[action]')
+  index() {}
+}
+```
 
 The above will override the Controller generated prefix with the specified at action level.
 
@@ -89,13 +86,13 @@ The above will override the Controller generated prefix with the specified at ac
 This is really an awesome feature, which allows you define path segments and match with the action arguments.
 
 
-    ```javascript
-    @route('[controller]')
-    class HomeController{
+```javascript
+@route('[controller]')
+class HomeController{
 
-      // the values on
-      // /home/index/user/data would match to param and matching parameters
-      @route('/{param}/{matching}')
-      index(param, matching){}
-    }
-    ```
+  // the values on
+  // /home/index/user/data would match to param and matching parameters
+  @route('/{param}/{matching}')
+  index(param, matching){}
+}
+```
