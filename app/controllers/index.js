@@ -3,7 +3,7 @@ import route from '../../lib/core/annotations/route';
 @route()
 export default class IndexController{
 
-  @route({ path: '/[action]/{user?}' })
+  @route('/[action]/{user?}')
   home(user) {
     return `Hello to the user ${user}`;
   }
