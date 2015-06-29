@@ -1,21 +1,20 @@
-import controller from '../../lib/core/annotations/controller';
-import {httpGet} from '../../lib/core/annotations/methods';
+import route from '../../lib/core/annotations/route';
 import resolver from '../index';
 
-@controller({resolver})
+@route({resolver})
 export default class IndexController{
 
-  @httpGet({ path: '/[action]/{user?}' })
+  @route({ path: '/[action]/{user?}' })
   home(user) {
     return `Hello to the user ${user}`;
   }
 
-  @httpGet()
+  @route()
   index() {
     return { message: 'this is the index.' };
   }
 
-  @httpGet()
+  @route()
   hello() {
     return 'This is hello world!!!';
   }
