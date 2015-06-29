@@ -18,17 +18,18 @@ This project aims to be a simple implementation for the ASP MVC routing framewor
 If you read some of the links above, now you have a general (like me) - because i´m not an asp developer expert- understanding of how this routing framework works. It hopefully would be enough for me and for anyone who likes to contribute.
 
 The routing framework has to top level routing models:
- - Convention based routing
- - Attribute based routing
+
+ - **Convention based routing**
+ - **Attribute based routing**
 
 
  Both are really helpful approaches, but from my perspective the Convention based routing lost some of his utilities, because the introduction of the Attribute based routing.
 
- Because of this, i would only implement the Attribute based routing, which i consider most useful, but also would implement a simple "global" conventions which would allow us to define a "template" pattern for all controllers; this would only allow constant values, a well two wildcards {controller} and {action}, which will match with the current controller and action (the same way of work of convention based routing), the main difference besides described above is that it only will allow one global template for the whole application.
+ Because of this, i would only implement the Attribute based routing, which i consider most useful, but also would implement a simple "global" conventions which would allow us to define a "template" pattern for all controllers; this would only allow constant values, a well two wildcards {controller} and {action}, which will match with the current controller and action (the same way of work of convention based routing), the main difference besides described above is that it only will allow one global template for the whole application. We can also specify default values for both wildcards.
 
  This will allow us to define something like:
 
-     /prefix-{controller}-postfix/prefix-{action}-postfix
+     /prefix-{controller=default}-postfix/prefix-{action=default}-postfix
 
 Which is going to match as a global "default" convention for Controller/action pair. From my perspective this has a more sense than defining routes per controller at a global level.
 
@@ -36,14 +37,62 @@ Another routes customizations would be allowed as Attribute based routing, which
 
 The attribute based routing, will allow you override the default naming conventions, enabling you using a more complex routing matching, as defined in the original asp mvc routing framework, you will allowed to use:
 
- - [controller] and [action] wildcards.
+ - **[controller]** and **[action]** wildcards.
  - Action attributes pattern matching.
  - Default parameters for attributes.
  - Attribute constraints
  - General pattern matching via Regular Expressions.
 
+
  ### Attribute based routing
  As mentioned above, i´m going to describe in detail the implementation details of each of this features.
 
  #### Controller and Action wildcards
- In a Controller class definition or in
+ In a Controller class definition or in a class method definition (constructor functions and function as methods in javascript lang) are the only places in which a routing decorator can be placed.
+
+ At class definition level, we can refer to the current controller by using the {controller} wildcard, which would be replaced with the controller name (stripping out the "Controller" postfix/prefix if present).
+
+    ```javascript
+    // maps to /home
+    @route('/[controller]')
+    class HomeController{}
+    ```
+
+We also can use default values to specify a action default (which also overrides the naming convention defaults).
+
+    ```javascript
+    // the route /home maps to /home/index
+    @route('/[controller]/[action=index]')
+    class HomeController{
+      index() {}
+    }
+    ```
+
+In case of an action, we can use [controller] and [action] in a similar way.
+
+    ```javascript
+    @route('[controller]')
+    class HomeController{
+
+      // this route maps to
+      // /api/my-home/index
+      @route('/api/my-[controller]/[action]')
+      index() {}
+    }
+    ```
+
+The above will override the Controller generated prefix with the specified at action level.
+
+#### Action attributes pattern matching
+This is really an awesome feature, which allows you define path segments and match with the action arguments.
+
+    ```javascript
+    @route('[controller]')
+    class HomeController{
+
+      // the values on
+      // /home/index/user/data would match to param and matching parameters
+      @route('/{param}/{matching}')
+      index(param, matching){}
+    }
+    ```
