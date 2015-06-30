@@ -20,9 +20,7 @@ server.start(function handlerServerStart() {
 });
 
 const router = new Router();
-
-const routes = router.getControllerRoutes(IndexController);
-routes.forEach(function bindActionsToRouter(actionConfig) {
+router.mapControllerActions(IndexController, function mapRouteConfig(actionConfig) {
   server.route(actionConfig);
 });
 
