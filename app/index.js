@@ -21,7 +21,7 @@ server.start(function handlerServerStart() {
 
 const router = new Router();
 const controller = new IndexController();
-console.log(`Routes for Controller [${IndexController.name}] at ${IndexController.prototype.resource}`);
+console.log(`Routes for Controller [${IndexController.name}] at ${IndexController.prototype.route}`);
 router.mapControllerActions(controller, function mapRouteConfig(actionConfig, controllerPropertyName) {
   console.info(` - Method handler [${actionConfig.method}][${controllerPropertyName}] at ${actionConfig.path}`);
   server.route(actionConfig);
