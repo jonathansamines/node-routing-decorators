@@ -1,6 +1,6 @@
+import path from 'path';
 import Hapi from 'hapi';
-import Router from '../lib/core/router';
-import IndexController from './controllers/index';
+import RouteLoader from '../lib/loader';
 
 const server = new Hapi.Server({
   connections: {
@@ -15,16 +15,11 @@ server.connection({
   host: 'localhost'
 });
 
-server.start(function handlerServerStart() {
-  console.log(`Server started at : ${server.info.uri}`);
-});
-
-const router = new Router();
-const controller = new IndexController();
-console.log(`Routes for Controller [${IndexController.name}] at ${IndexController.prototype.route}`);
-router.mapControllerActions(controller, function mapRouteConfig(actionConfig, controllerPropertyName) {
-  console.info(` - Method handler [${actionConfig.method}][${controllerPropertyName}] at ${actionConfig.path}`);
+const loader = new RouteLoader(path.join(__dirname, './controllers'));
+loader.bindControllers(function onRouteBinding(actionConfig) {
   server.route(actionConfig);
 });
 
-export default router;
+server.start(function handlerServerStart() {
+  console.log(`Server started at : ${server.info.uri}`);
+});
