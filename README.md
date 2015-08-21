@@ -12,7 +12,7 @@ For a more detailed introduction for this routing framework, take a look at the 
 - [How ASP MVC 6 (vnext) routing works](http://stephenwalther.com/archive/2015/02/07/asp-net-5-deep-dive-routing)
 - [The new attribute routing](http://blogs.msdn.com/b/webdev/archive/2013/10/17/attribute-routing-in-asp-net-mvc-5.aspx#route-constraints)
 
-This project aims to be a simple implementation for the ASP MVC routing framework, written as a wrapper around the incredible [hapiJS web framework](http://hapijs.com).
+This project aims to be a simple implementation for the ASP MVC routing framework, written to be framework-agnostic as posible to allow write the routing logic in a more "declarative" way, whatever the web framework you use.
 
 ### Implementation scope
 If you read some of the links above, now you have a general (like me) - because i´m not an asp developer expert- understanding of how this routing framework works. It hopefully would be enough for me and for anyone who likes to contribute.
