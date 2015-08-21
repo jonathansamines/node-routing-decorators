@@ -1,9 +1,10 @@
 import route from '../../lib/core/annotations/route';
+import {httpPost} from '../../lib/core/annotations/methods';
 
 @route()
 export default class IndexController{
 
-  @route('/[action]/{user?}')
+  @httpPost('/[action]/{user?}')
   home(user) {
     return `Hello to the user ${user}`;
   }
