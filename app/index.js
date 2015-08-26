@@ -17,6 +17,7 @@ server.connection({
 
 const loader = new RouteLoader(path.join(__dirname, './controllers'));
 loader.bindControllers(function onRouteBinding(actionConfig) {
+  actionConfig.handler = function() {};
   server.route(actionConfig);
 });
 
