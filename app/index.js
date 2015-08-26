@@ -1,5 +1,6 @@
+import path from 'path';
 import Hapi from 'hapi';
-import Router from '../lib/core/router';
+import RouteLoader from '../lib/loader';
 
 const server = new Hapi.Server({
   connections: {
@@ -14,10 +15,11 @@ server.connection({
   host: 'localhost'
 });
 
+const loader = new RouteLoader(path.join(__dirname, './controllers'));
+loader.bindControllers(function onRouteBinding(actionConfig) {
+  server.route(actionConfig);
+});
+
 server.start(function handlerServerStart() {
   console.log(`Server started at : ${server.info.uri}`);
 });
-
-const router = new Router(server);
-
-export default router;

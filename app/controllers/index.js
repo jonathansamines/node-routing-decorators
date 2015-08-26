@@ -1,21 +1,20 @@
-import controller from '../../lib/core/annotations/controller';
-import {httpGet} from '../../lib/core/annotations/methods';
-import resolver from '../index';
+import route from '../../lib/core/decorators/route';
+import {httpPost} from '../../lib/core/decorators/methods';
 
-@controller({resolver})
+@route()
 export default class IndexController{
 
-  @httpGet({ path: '/[action]/{user?}' })
+  @httpPost('/[action]/{user?}')
   home(user) {
     return `Hello to the user ${user}`;
   }
 
-  @httpGet()
+  @route()
   index() {
     return { message: 'this is the index.' };
   }
 
-  @httpGet()
+  @route()
   hello() {
     return 'This is hello world!!!';
   }
