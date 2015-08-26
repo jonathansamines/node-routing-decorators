@@ -1,5 +1,5 @@
-import route from '../../lib/core/annotations/route';
-import {httpPost} from '../../lib/core/annotations/methods';
+import route from '../../lib/core/decorators/route';
+import {httpPost} from '../../lib/core/decorators/methods';
 
 @route()
 export default class IndexController{
